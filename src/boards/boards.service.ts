@@ -1,28 +1,32 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BoardStatus } from './board-status.enum';
-import { v1 as uuid } from 'uuid';
 import { CreateBoardDto } from './dto/create-board.dto';
+import { BoardRepository } from './board.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Board } from './board.entity';
 
 
 @Injectable()
 export class BoardsService {
-    // getAllBoards(): Board[] {
-    //     return this.boards;
-    // }
+    constructor(
+        // @InjectRepository(Board) // 삭제
+        // @InjectRepository(BoardRepository) // 삭제
+        private boardRepository: BoardRepository,
+    ) { }
 
-    // createBoard(createBoardDto: CreateBoardDto) {
-    //     const { title, description } = createBoardDto;
+    createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+        return this.boardRepository.createBoard(createBoardDto);
+    }
 
-    //     const board: Board = {
-    //         id: uuid(),
-    //         title,
-    //         description,
-    //         status: BoardStatus.PUBLIC
-    //     }
+    async getBoardById(id: number): Promise<Board> {
+        const found = await this.boardRepository.findOneBy({ id });
 
-    //     this.boards.push(board);
-    //     return board;
-    // }
+        if (!found) {
+            throw new NotFoundException(`${id}에 해당하는 게시물을 찾지 못했습니다.`);
+        }
+
+        return found;
+    }
 
     // getBoardById(id: string): Board {
     //     const found = this.boards.find((board) => board.id === id);
@@ -32,6 +36,15 @@ export class BoardsService {
     //     }
     //     return found;
     // }
+
+    async deleteBoard(id: number): Promise<void> {
+        const result = await this.boardRepository.delete(id);
+
+        if(result.affected === 0) {
+            throw new NotFoundException(`${id}번 아이디의 게시물을 찾을 수 없습니다.`);
+        }
+
+    }
 
     // deleteBoard(id: string): void {
     //     const found = this.getBoardById(id);
