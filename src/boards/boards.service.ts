@@ -14,6 +14,10 @@ export class BoardsService {
         private boardRepository: BoardRepository,
     ) { }
 
+    async getAllBoards(): Promise<Board[]> {
+        return this.boardRepository.find();
+    }
+
     createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
         return this.boardRepository.createBoard(createBoardDto);
     }
@@ -40,7 +44,7 @@ export class BoardsService {
     async deleteBoard(id: number): Promise<void> {
         const result = await this.boardRepository.delete(id);
 
-        if(result.affected === 0) {
+        if (result.affected === 0) {
             throw new NotFoundException(`${id}번 아이디의 게시물을 찾을 수 없습니다.`);
         }
 
