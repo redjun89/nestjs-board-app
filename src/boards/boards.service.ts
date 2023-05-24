@@ -16,7 +16,7 @@ export class BoardsService {
     ) { }
 
     async getAllBoards(
-        user:User
+        user: User
     ): Promise<Board[]> {
         const query = this.boardRepository.createQueryBuilder('board');
 
@@ -48,13 +48,17 @@ export class BoardsService {
     //     return found;
     // }
 
-    async deleteBoard(id: number): Promise<void> {
-        const result = await this.boardRepository.delete(id);
+    async deleteBoard(id: number, user: User): Promise<void> {
+        const result = await this.boardRepository
+            .createQueryBuilder('board')
+            .delete()
+            .from(Board)
+            .where('id = :id AND user = :user', { id, user })
+            .execute();
 
         if (result.affected === 0) {
             throw new NotFoundException(`${id}번 아이디의 게시물을 찾을 수 없습니다.`);
         }
-
     }
 
     // deleteBoard(id: string): void {
