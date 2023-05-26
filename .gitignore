@@ -171,6 +171,10 @@ dist
 
 # config
 ./config
+.config
+.config/default.yml
+.config/development.yml
+.config/production.yml
 
 ### Node Patch ###
 # Serverless Webpack directories
