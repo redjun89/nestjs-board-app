@@ -170,11 +170,7 @@ dist
 .pnp.*
 
 # config
-./config
-.config
-.config/default.yml
-.config/development.yml
-.config/production.yml
+config/
 
 ### Node Patch ###
 # Serverless Webpack directories
