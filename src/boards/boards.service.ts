@@ -10,8 +10,6 @@ import { User } from '../auth/user.entity';
 @Injectable()
 export class BoardsService {
     constructor(
-        // @InjectRepository(Board) // 삭제
-        // @InjectRepository(BoardRepository) // 삭제
         private boardRepository: BoardRepository,
     ) { }
 

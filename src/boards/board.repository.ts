@@ -7,8 +7,7 @@ import { User } from '../auth/user.entity';
 
 export class BoardRepository extends Repository<Board> {
     constructor(@InjectRepository(Board) private dataSource: DataSource) {
-        super(Board, dataSource.manager) // 변경
-        // super(Board, dataSource.createEntityManager()) // 삭제
+        super(Board, dataSource.manager)
     }
     async createBoard(createBoardDto: CreateBoardDto, user: User) : Promise<Board> {
 
