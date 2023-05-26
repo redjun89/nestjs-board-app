@@ -36,13 +36,8 @@ export class BoardsController {
     @Post()
     @UsePipes(ValidationPipe)
     createBoard(@Body() CreateBoardDto: CreateBoardDto,
-    @GetUser() user: User): Promise<Board> {
+        @GetUser() user: User): Promise<Board> {
         return this.boardsService.createBoard(CreateBoardDto, user);
-    }
-
-    @Get('/:id')
-    getBoardById(@Param('id') id: number): Promise<Board> {
-        return this.boardsService.getBoardById(id);
     }
 
     // @Get('/:id')
@@ -50,11 +45,9 @@ export class BoardsController {
     //     return this.boardsService.getBoardById(id)
     // }
 
-    @Delete('/:id')
-    deleteBoard(@Param('id', ParseIntPipe) id,
-    @GetUser() user:User
-    ): Promise<void> {
-        return this.boardsService.deleteBoard(id, user);
+    @Get('/:id')
+    getBoardById(@Param('id') id: number): Promise<Board> {
+        return this.boardsService.getBoardById(id);
     }
 
     // @Delete('/:id')
@@ -62,12 +55,11 @@ export class BoardsController {
     //     this.boardsService.deleteBoard(id)
     // }
 
-    @Patch('/:id/status')
-    updateBoardStatus(
-        @Param('id', ParseIntPipe) id: number,
-        @Body('status', BoardStatusValidationPipe) status: BoardStatus
-    ) {
-        return this.boardsService.updateBoardStatus(id, status);
+    @Delete('/:id')
+    deleteBoard(@Param('id', ParseIntPipe) id,
+        @GetUser() user: User
+    ): Promise<void> {
+        return this.boardsService.deleteBoard(id, user);
     }
 
     // @Patch('/:id/status')
@@ -77,4 +69,12 @@ export class BoardsController {
     // ) {
     //     return this.boardsService.updateBoardStatus(id, status);
     // }
+
+    @Patch('/:id/status')
+    updateBoardStatus(
+        @Param('id', ParseIntPipe) id: number,
+        @Body('status', BoardStatusValidationPipe) status: BoardStatus
+    ) {
+        return this.boardsService.updateBoardStatus(id, status);
+    }
 }
