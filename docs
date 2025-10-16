@@ -1,0 +1,108 @@
+seat_reservations							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	좌석예약id	id		BIGINT	N		AUTO_INCREMENT
+FK	예약id	reservation_id		BIGINT	N		AUTO_INCREMENT
+FK	회차좌석id	seat_id		BIGINT	N		AUTO_INCREMENT
+	생성일자	created_at		timestamp	N	sysdate	
+							
+concerts							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	콘서트ID	id		BIGINT	N		AUTO_INCREMENT
+FK	공연장Id	venue_id		BIGINT	N		AUTO_INCREMENT
+	콘서트제목	title		varchar(50)	N		
+	공연시간	runtime_min		BIGINT	N		
+	출연진	cast		varchar(100)	N		
+	콘서트시작날자	start_dt		Date	N		
+	콘서트종료날자	end_dt		Date	N		
+	생성일자	created_at		timestamp	N	sysdate	
+	수정일자	updated_at		timestamp	N	sysdate	
+	공연설명	description		varchar(255)	Y		
+	사용여부	use_yn		varchar(1)	N	'Y'	
+							
+point_history							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	이력ID	id		BIGINT	N		AUTO_INCREMENT
+FK	회원ID	user_id		varchar(36)	N		UUID
+	이용타입	ref_type		ENUM	N		"CHARGE","PAYMENT","REFUND"
+	이용식별자	ref_id		VARCHAR(100)	Y		예약 id, 충전id, 추적용도
+	금액	amount		BIGINT	N		
+	잔액	balance		BIGINT	N		
+	생성일자	created_at		timestamp	N	sysdate	
+							
+venue_seats							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	공연장좌석id	id		BIGINT	N		AUTO_INCREMENT
+FK	공연장Id	venue_id		BIGINT	N		AUTO_INCREMENT
+	구역	section		VARCHAR(50)	Y		구역
+	열	row_no		VARCHAR(50)	Y		
+	좌석번호	seat_no		BIGINT	N		
+							
+venues							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	공연장Id	id		BIGINT	N		AUTO_INCREMENT
+	공연장이름	name		VARCHAR(255)	N		
+	공연장주소	address		VARCHAR(500)	N		
+	사용여부	use_yn		VARCHAR(1)	N	'Y'	공연장 데이터 사용유무
+							
+users							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	회원ID	id		varchar(36)	N		UUID
+	이메일	email		varchar(255)	N		UNIQUE
+	비밀번호	password		varchar(255)	N		
+	생성일자	created_at		timestamp	N	sysdate	
+	수정일자	updated_at		timestamp	N	sysdate	
+							
+points							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK, FK	회원ID	id		varchar(36)	N		UUID
+	잔액	balance		BIGINT	N	0	
+	수정일자	updated_at		timestamp	N	sysdate	
+							
+concert_schedule_seat_grades							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	회차좌석등급id	id		BIGINT	N		AUTO_INCREMENT
+FK	콘서트회차id	concert_schedules_id		BIGINT	N		AUTO_INCREMENT
+	등급	grade		VARCHAR(5)	N		
+	가격	price		BIGINT	N		
+							
+payment							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	결제id	id		BIGINT	N		AUTO_INCREMENT
+FK	예약id	reservation_id		BIGINT	N		AUTO_INCREMENT
+	상태	stauts		ENUM	N		"SUCCESS","FAILED","REFUNDED"
+	금액	amount		BIGINT	N		
+	생성일자	created_at		timestamp	N	sysdate	
+							
+payment_details							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	결제상세id	id		BIGINT	N		AUTO_INCREMENT
+FK	결제id	payment_id		BIGINT	N		AUTO_INCREMENT
+	결제방식	type		ENUM	N		"card","point"
+	결제금액	amount		BIGINT	N		
+	상태	stauts		ENUM	N		"SUCCESS","FAILED","REFUNDED"
+	생성일자	created_at		timestamp	N	sysdate	
+							
+concert_schedules							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	콘서트회차id	id		BIGINT	N		AUTO_INCREMENT
+FK	콘서트ID	concert_id		BIGINT	N		AUTO_INCREMENT
+	진행상태	status		ENUM	N	PENDING	"PENDING", "ON_SALE','CLOSED','CANCELLED'
+	생성일자	created_at		timestamp	N	sysdate	
+	수정일자	updated_at		timestamp	N	sysdate	
+	예약가능일자	open_at		timestamp	N		
+	회차시작일자	start_at		timestamp	N		
+							
+concert_schedule_seats							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	회차좌석id	id		BIGINT	N		AUTO_INCREMENT
+FK	콘서트회차id	concert_schedules_id		BIGINT	N		AUTO_INCREMENT
+FK	공연장좌석id	venue_seats_Id		BIGINT	N		AUTO_INCREMENT
+FK	회차좌석등급id	seat_grades_id		BIGINT	N		AUTO_INCREMENT
+							
+reservations							
+키	논리	물리	도메인	타입	Null 허용	기본값	코멘트
+PK	예약id	id		BIGINT	N		AUTO_INCREMENT
+FK	회원ID	user_id		varchar(36)	N		UUID
+	예약상태	status		ENUM	N	"HOLD"	"HOLD","EXPIRED","RESERVED","CANCELLED"
+	생성일자	created_at		timestamp	N	sysdate	
+	수정일자	updated_at		timestamp	N	sysdate	
