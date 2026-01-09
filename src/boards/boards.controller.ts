@@ -13,11 +13,6 @@ import { GetUser } from '../auth/get-user.decorator';
 export class BoardsController {
     constructor(private boardsService: BoardsService) { }
 
-    // @Get('/')
-    // getAllBoard(): Board[] {
-    //     return this.boardsService.getAllBoards();
-    // }
-
     @Get()
     getAllBoard(
         @GetUser() user: User
@@ -25,13 +20,6 @@ export class BoardsController {
         return this.boardsService.getAllBoards(user);
     }
 
-    // @Post()
-    // @UsePipes(ValidationPipe)
-    // createBoard(
-    //     @Body() createBoardDto: CreateBoardDto
-    // ): Board {
-    //     return this.boardsService.createBoard(createBoardDto)
-    // }
 
     @Post()
     @UsePipes(ValidationPipe)
@@ -40,10 +28,6 @@ export class BoardsController {
         return this.boardsService.createBoard(CreateBoardDto, user);
     }
 
-    // @Get('/:id')
-    // getBoardById(@Param('id') id: string): Board {
-    //     return this.boardsService.getBoardById(id)
-    // }
 
     @Get('/:id')
     getBoardById(@Param('id') id: number): Promise<Board> {
